@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Student Feedback Form 2025-26</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+Telugu:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #faf7f0;
+    --paper-raised: #ffffff;
+    --ink: #24262b;
+    --ink-soft: #5c5a52;
+    --rule: #ddd5c3;
+    --indigo: #1f3a5c;
+    --indigo-deep: #16283f;
+    --gold: #a9803f;
+    --gold-soft: #f1e6d0;
+    --error: #a3372f;
+    --success: #3f6c51;
+    --radius: 3px;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #16181c;
+      --paper-raised: #1e2126;
+      --ink: #eae6db;
+      --ink-soft: #a29c8d;
+      --rule: #34383f;
+      --indigo: #7fa3d6;
+      --indigo-deep: #a9c3e8;
+      --gold: #d1ac6c;
+      --gold-soft: #2c2718;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #16181c;
+    --paper-raised: #1e2126;
+    --ink: #eae6db;
+    --ink-soft: #a29c8d;
+    --rule: #34383f;
+    --indigo: #7fa3d6;
+    --indigo-deep: #a9c3e8;
+    --gold: #d1ac6c;
+    --gold-soft: #2c2718;
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 40px 20px 96px;
+  }
+  header.masthead {
+    border-bottom: 3px solid var(--indigo);
+    padding-bottom: 20px;
+    margin-bottom: 28px;
+  }
+  .kicker {
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-family: 'Spectral', serif;
+    font-weight: 600;
+    font-size: 30px;
+    margin: 0 0 10px;
+    color: var(--indigo);
+  }
+  .intro {
+    color: var(--ink-soft);
+    font-size: 15px;
+    max-width: 56ch;
+  }
+  .required-note {
+    font-size: 12.5px;
+    color: var(--error);
+    margin-top: 14px;
+  }
+
+  /* progress */
+  .progress-rail {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    background: var(--paper);
+    padding: 10px 0 14px;
+    z-index: 5;
+    margin-bottom: 8px;
+  }
+  .progress-track {
+    height: 4px;
+    background: var(--rule);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--indigo);
+    transition: width 0.3s ease;
+  }
+  .progress-label {
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    margin-top: 6px;
+    letter-spacing: 0.01em;
+  }
+
+  section.block {
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 26px 24px;
+    margin-bottom: 18px;
+  }
+  .section-title {
+    font-family: 'Spectral', serif;
+    font-size: 13px;
+    text-transform: none;
+    letter-spacing: 0.04em;
+    color: var(--gold);
+    font-weight: 600;
+    margin: 0 0 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .q {
+    margin-bottom: 26px;
+  }
+  .q:last-child { margin-bottom: 0; }
+  .q-num {
+    display: inline-block;
+    min-width: 22px;
+    color: var(--ink-soft);
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+  }
+  .q-label {
+    font-weight: 600;
+    font-size: 15.5px;
+    line-height: 1.4;
+  }
+  .q-label .req {
+    color: var(--error);
+    margin-left: 3px;
+  }
+  .q-telugu {
+    font-family: 'Noto Sans Telugu', 'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 5px 0 0 28px;
+    line-height: 1.55;
+  }
+  .q-body {
+    margin-top: 12px;
+    margin-left: 28px;
+  }
+
+  input[type="text"], input[type="email"], input[type="tel"] {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 15px;
+    font-family: inherit;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+  }
+  input:focus, textarea:focus {
+    outline: 2px solid var(--indigo);
+    outline-offset: 1px;
+    border-color: var(--indigo);
+  }
+
+  /* radio / checkbox lists */
+  .opt-list { display: flex; flex-direction: column; gap: 9px; }
+  .opt {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 9px 12px;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 14.5px;
+    background: var(--paper);
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .opt:hover { border-color: var(--indigo); }
+  .opt input { accent-color: var(--indigo); width: 16px; height: 16px; flex-shrink: 0; }
+  .opt.checked {
+    border-color: var(--indigo);
+    background: var(--gold-soft);
+  }
+
+  /* likert scale */
+  .likert {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .likert-opt {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 12px;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 14.5px;
+    background: var(--paper);
+  }
+  .likert-opt.checked { border-color: var(--indigo); background: var(--gold-soft); }
+  .likert-opt input { accent-color: var(--indigo); width: 16px; height: 16px; }
+  .likert-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--indigo);
+    color: var(--paper-raised);
+    flex-shrink: 0;
+  }
+
+  .file-drop {
+    border: 1.5px dashed var(--rule);
+    border-radius: var(--radius);
+    padding: 22px 16px;
+    text-align: center;
+    color: var(--ink-soft);
+    font-size: 14px;
+    cursor: pointer;
+    background: var(--paper);
+  }
+  .file-drop.has-file { border-color: var(--success); color: var(--success); border-style: solid; }
+  .file-drop input { display: none; }
+
+  .other-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 4px;
+  }
+  .other-row input[type="text"] { flex: 1; }
+
+  .err-msg {
+    color: var(--error);
+    font-size: 12.5px;
+    margin-top: 8px;
+    display: none;
+  }
+  .q.invalid .err-msg { display: block; }
+  .q.invalid .q-body .opt,
+  .q.invalid input[type="text"],
+  .q.invalid input[type="email"],
+  .q.invalid .file-drop {
+    border-color: var(--error);
+  }
+
+  .submit-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 6px;
+    padding: 4px 2px;
+  }
+  button.submit-btn {
+    background: var(--indigo);
+    color: #fff;
+    border: none;
+    padding: 13px 28px;
+    font-size: 15px;
+    font-family: inherit;
+    font-weight: 600;
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+  button.submit-btn:hover { background: var(--indigo-deep); }
+  button.submit-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .clear-link {
+    background: none;
+    border: none;
+    color: var(--ink-soft);
+    font-size: 13.5px;
+    font-family: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  /* confirmation screen */
+  #confirm {
+    display: none;
+  }
+  #confirm .check {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: var(--success);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    margin: 0 auto 18px;
+  }
+  #confirm h2 {
+    font-family: 'Spectral', serif;
+    text-align: center;
+    color: var(--indigo);
+    margin-bottom: 8px;
+  }
+  #confirm p.sub {
+    text-align: center;
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-bottom: 30px;
+  }
+  .summary-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .summary-item:last-child { border-bottom: none; }
+  .summary-q { font-size: 12.5px; color: var(--ink-soft); margin-bottom: 4px; }
+  .summary-a { font-size: 14.5px; font-weight: 500; }
+  .restart-btn {
+    margin-top: 26px;
+    width: 100%;
+    background: var(--paper);
+    border: 1px solid var(--indigo);
+    color: var(--indigo);
+    padding: 12px;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 14.5px;
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+
+  @media (max-width: 480px) {
+    .wrap { padding: 24px 14px 80px; }
+    h1 { font-size: 25px; }
+    section.block { padding: 20px 16px; }
+    .q-telugu, .q-body { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Academic Year 2025&ndash;26</div>
+    <h1>Student Feedback Form on curriculum</h1>
+    <p class="intro">Dear Student, the institution wishes to receive feedback from you on various curricular aspects, thereby helping us improve the quality of the teaching&ndash;learning process. Please submit a separate feedback form for curriculum on every subject.</p>
+    <p class="required-note">* Indicates a required question</p>
+  </header>
+
+  <div class="progress-rail">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label" id="progressLabel">0 of 19 answered</div>
+  </div>
+
+  <form id="feedbackForm" novalidate>
+
+    <section class="block">
+      <div class="section-title">Student Details</div>
+
+      <div class="q" data-q="1">
+        <label class="q-label"><span class="q-num">1.</span> Full name ( As per SSC Certificate )<span class="req">*</span></label>
+        <div class="q-body">
+          <input type="text" name="fullname" autocomplete="name">
+          <div class="err-msg">This is a required question.</div>
+        </div>
+      </div>
+
+      <div class="q" data-q="2">
+        <label class="q-label"><span class="q-num">2.</span> Email<span class="req">*</span></label>
+        <div class="q-body">
+          <input type="email" name="email" autocomplete="email">
+          <div class="err-msg">This is a required question.</div>
+        </div>
+      </div>
+
+      <div class="q" data-q="3">
+        <label class="q-label"><span class="q-num">3.</span> Student Mobile No<span class="req">*</span></label>
+        <div class="q-body">
+          <input type="tel" name="mobile" autocomplete="tel">
+          <div class="err-msg">This is a required question.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="section-title">Academic Details</div>
+
+      <div class="q" data-q="4">
+        <label class="q-label"><span class="q-num">4.</span> Course<span class="req">*</span></label>
+        <div class="q-body">
+          <div class="opt-list" data-name="course">
+            <!-- populated by JS -->
+          </div>
+          <div class="err-msg">This is a required question.</div>
+        </div>
+      </div>
+
+      <div class="q" data-q="5">
+        <label class="q-label"><span class="q-num">5.</span> Year<span class="req">*</span></label>
+        <div class="q-body">
+          <div class="opt-list" data-name="year"></div>
+          <div class="err-msg">This is a required question.</div>
+        </div>
+      </div>
+
+      <div class="q" data-q="6">
+        <label class="q-label"><span class="q-num">6.</span> Semester<span class="req">*</span></label>
+        <div class="q-body">
+          <div class="opt-list" data-name="semester"></div>
+          <div class="err-msg">This is a required question.</div>
+        </div>
+      </div>
+
+      <div class="q" data-q="7">
+        <label class="q-label"><span class="q-num">7.</span> Select feedback subject<span class="req">*</span></label>
+        <div class="q-body">
+          <div class="opt-list" data-name="subject"></div>
+          <div class="err-msg">This is a required question.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="likertBlock">
+      <div class="section-title">Curriculum &amp; Teaching Feedback</div>
+      <!-- likert questions injected by JS -->
+    </section>
+
+    <section class="block">
+      <div class="section-title">Suggestions</div>
+      <div class="q" data-q="18">
+        <label class="q-label"><span class="q-num">18.</span> Suggestions / Comments if any<span class="req">*</span></label>
+        <p style="margin:4px 0 0 28px; font-size:13px; color:var(--ink-soft); font-style:italic;">Note: select the checkboxes that best describe your perception of the college.</p>
+        <div class="q-body">
+          <div class="opt-list" id="suggestionsList" data-name="suggestions"></div>
+          <div class="other-row">
+            <input type="checkbox" id="otherCheck" style="width:16px;height:16px;accent-color:var(--indigo);">
+            <label for="otherCheck" style="font-size:14px;">Other:</label>
+            <input type="text" id="otherText" placeholder="">
+          </div>
+          <div class="err-msg">This is a required question.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="section-title">Photo</div>
+      <div class="q" data-q="19">
+        <label class="q-label"><span class="q-num">19.</span> Upload your image<span class="req">*</span></label>
+        <div class="q-body">
+          <label class="file-drop" id="fileDrop">
+            <input type="file" id="fileInput" accept="image/*">
+            <span id="fileDropText">Tap to choose a passport-style photo</span>
+          </label>
+          <div class="err-msg">This is a required question.</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="submit-row">
+      <button type="submit" class="submit-btn">Submit</button>
+      <button type="button" class="clear-link" id="clearForm">Clear form</button>
+    </div>
+  </form>
+
+  <div id="confirm">
+    <div class="check">&#10003;</div>
+    <h2>Response recorded</h2>
+    <p class="sub">Thank you for helping us improve the quality of teaching and learning.</p>
+    <div id="summaryList"></div>
+    <button class="restart-btn" id="restartBtn">Submit another response</button>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  const COURSES = [
+    "B.A Economics (Major)",
+    "B.A Political Science (Major )",
+    "B.Com Computer Applications (Major)",
+    "B.Sc Mathematics (Major)",
+    "B.Sc Physics (Major)",
+    "B.Sc Chemistry (Major)",
+    "B.Sc Computer Science (Major)",
+    "B.Sc Zoology (Major)"
+  ];
+  const YEARS = ["I Year", "II Year", "III Year"];
+  const SEMESTERS = ["Semester I", "Semester III", "Semester V"];
+  const SUBJECTS = ["ENGLISH","TELUGU","MATHEMATICS","PHYSICS","CHEMISTRY","COMPUTER SCIENCE","BOTANY","ZOOLOGY","HISTORY","ECONOMICS","POLITICAL SCIENCE","COMMERCE"];
+
+  const LIKERT_OPTIONS = [
+    "1.Strongly Agree","2.Agree","3.Not Sure","4.Disagree","5.Strongly Disagree"
+  ];
+
+  const LIKERT_QUESTIONS = [
+    {
+      num: 8, id: "q1",
+      en: "1. The courses studied by me have enhanced my knowledge as well as my skills and my capabilities.",
+      te: "నేను చదివిన కోర్సులు నా జ్ఞానంతో పాటు నా నైపుణ్యాలు మరియు నా సామర్థ్యాలను మెరుగుపరిచాయి."
+    },
+    {
+      num: 9, id: "q2",
+      en: "2. The entire syllabus is completed in time:",
+      te: "మొత్తం సిలబస్ సకాలంలో పూర్తవుతుంది"
+    },
+    {
+      num: 10, id: "q3",
+      en: "3. Modern teaching aids, power point presentations, web-resources, multi-media, e-content etc. are used by most of the teachers while teaching.",
+      te: "ఆధునిక టీచింగ్ ఎయిడ్స్, పవర్ పాయింట్ ప్రెజెంటేషన్స్, వెబ్-రిసోర్సెస్, మల్టీ-మీడియా, ఇ-కంటెంట్ మొదలైనవాటిని చాలా మంది ఉపాధ్యాయులు బోధించేవుడు ఉపయోగిస్తున్నారు."
+    },
+    {
+      num: 11, id: "q4",
+      en: "4. The teachers guide the students for overall personality development of the students.",
+      te: "విద్యార్థుల సంపూర్ణ వ్యక్తిత్వ వికాసానికి ఉపాధ్యాయులు మార్గనిర్దేశం చేస్తారు"
+    },
+    {
+      num: 12, id: "q5",
+      en: "5. The teachers provide the students opportunities to learn and grow",
+      te: "ఉపాధ్యాయులు విద్యార్థులకు నేర్చుకునే మరియు ఎదగడానికి అవకాశం కల్పిస్తారు"
+    },
+    {
+      num: 13, id: "q6",
+      en: "6. The assessment and evaluation process is fair and unbiased.",
+      te: "మూల్యాంకనం మరియు మూల్యాంకన ప్రక్రియ న్యాయమైనది మరియు నిష్పాక్షికమైనది"
+    },
+    {
+      num: 14, id: "q7",
+      en: "7. The teachers encourage the students to participate in extra-curricular, co-curricular activities and research projects.",
+      te: "ఉపాధ్యాయులు విద్యార్థులను పాఠ్యేతర, సహ-పాఠ్య కార్యకలాపాలు మరియు పరిశోధన ప్రాజెక్టులలో పాల్గొనేలా ప్రోత్సహిస్తారు"
+    },
+    {
+      num: 15, id: "q8",
+      en: "8. The teachers keep the students updated about the latest developments in the subject/area of knowledge.",
+      te: "ఉపాధ్యాయులు సబ్జెక్టు/విజ్ఞాన రంగంలో తాజా పరిణామాల గురించి విద్యార్థులకు తెలియజేస్తారు"
+    },
+    {
+      num: 16, id: "q9",
+      en: "9. The teachers take active interest in arranging field visits, study tours etc. for enhancing learning.",
+      te: "ఉపాధ్యాయులు అభ్యసనాన్ని పెంపొందించడానికి క్షేత్ర సందర్శనలు, అధ్యయన పర్యటనలు మొదలైనవాటిని ఏర్పాటు చేయడంలో చురుకైన ఆసక్తిని కనబరుస్తారు"
+    },
+    {
+      num: 17, id: "q10",
+      en: "10. The teachers take efforts to enhance employability skills in the students",
+      te: "విద్యార్థులలో ఉపాధి నైపుణ్యాలను పెంపొందించేందుకు ఉపాధ్యాయులు కృషి చేస్తారు"
+    }
+  ];
+
+  const SUGGESTIONS = [
+    "Additional class rooms required",
+    "I want multi faculty for this subject",
+    "Need to improve good relationship with students",
+    "More classes and less Extra-curricular activities required",
+    "Require more sitting benches",
+    "insufficient furniture",
+    "Curriculum is apt for me",
+    "More ICT classes required",
+    "More explanation is required",
+    "Try to enhance our speaking skills",
+    "Power Point Presentations by faculty members for the easy comprehension",
+    "Insufficient number of computers",
+    "Need more quality in teaching",
+    "Excellent teaching skills I am inspired very much",
+    "This curriculum is more useful for my career",
+    "Library facilities need to be improve",
+    "Remedial classes are required",
+    "Required more job drives",
+    "College IQAC is vibrant"
+  ];
+
+  function el(tag, cls, html){
+    const e = document.createElement(tag);
+    if(cls) e.className = cls;
+    if(html !== undefined) e.innerHTML = html;
+    return e;
+  }
+
+  function buildRadioList(container, name, options){
+    options.forEach((opt, i)=>{
+      const label = el('label','opt');
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = name;
+      input.value = opt;
+      label.appendChild(input);
+      label.appendChild(document.createTextNode(opt));
+      input.addEventListener('change', ()=>{
+        container.querySelectorAll('.opt').forEach(o=>o.classList.remove('checked'));
+        label.classList.add('checked');
+        clearInvalid(container.closest('.q'));
+        updateProgress();
+      });
+      container.appendChild(label);
+    });
+  }
+
+  // Course / Year / Semester / Subject
+  buildRadioList(document.querySelector('[data-name="course"]'), 'course', COURSES);
+  buildRadioList(document.querySelector('[data-name="year"]'), 'year', YEARS);
+  buildRadioList(document.querySelector('[data-name="semester"]'), 'semester', SEMESTERS);
+  buildRadioList(document.querySelector('[data-name="subject"]'), 'subject', SUBJECTS);
+
+  // Likert questions
+  const likertBlock = document.getElementById('likertBlock');
+  LIKERT_QUESTIONS.forEach(item=>{
+    const q = el('div','q');
+    q.setAttribute('data-q', item.num);
+    const label = el('label','q-label', `<span class="q-num">${item.num}.</span> ${item.en}<span class="req">*</span>`);
+    q.appendChild(label);
+    const te = el('div','q-telugu', item.te);
+    q.appendChild(te);
+    const body = el('div','q-body');
+    const likert = el('div','likert');
+    LIKERT_OPTIONS.forEach(opt=>{
+      const num = opt.split('.')[0];
+      const text = opt.split('.')[1];
+      const wrap = el('label','likert-opt');
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = item.id;
+      input.value = opt;
+      const badge = el('span','likert-num', num);
+      wrap.appendChild(input);
+      wrap.appendChild(badge);
+      wrap.appendChild(document.createTextNode(text));
+      input.addEventListener('change', ()=>{
+        likert.querySelectorAll('.likert-opt').forEach(o=>o.classList.remove('checked'));
+        wrap.classList.add('checked');
+        clearInvalid(q);
+        updateProgress();
+      });
+      likert.appendChild(wrap);
+    });
+    body.appendChild(likert);
+    const err = el('div','err-msg','This is a required question.');
+    body.appendChild(err);
+    q.appendChild(body);
+    likertBlock.appendChild(q);
+  });
+
+  // Suggestions checkboxes
+  const sugList = document.getElementById('suggestionsList');
+  SUGGESTIONS.forEach(text=>{
+    const label = el('label','opt');
+    const input = document.createElement('input');
+    input.type = 'checkbox';
+    input.name = 'suggestions';
+    input.value = text;
+    label.appendChild(input);
+    label.appendChild(document.createTextNode(text));
+    input.addEventListener('change', ()=>{
+      label.classList.toggle('checked', input.checked);
+      clearInvalid(label.closest('.q'));
+      updateProgress();
+    });
+    sugList.appendChild(label);
+  });
+  document.getElementById('otherCheck').addEventListener('change', function(){
+    clearInvalid(this.closest('.q'));
+    updateProgress();
+  });
+  document.getElementById('otherText').addEventListener('input', function(){
+    if(this.value.trim()){
+      document.getElementById('otherCheck').checked = true;
+    }
+    updateProgress();
+  });
+
+  // File upload
+  const fileInput = document.getElementById('fileInput');
+  const fileDrop = document.getElementById('fileDrop');
+  const fileDropText = document.getElementById('fileDropText');
+  fileInput.addEventListener('change', function(){
+    if(this.files && this.files[0]){
+      fileDrop.classList.add('has-file');
+      fileDropText.textContent = '\u2713 ' + this.files[0].name;
+      clearInvalid(fileDrop.closest('.q'));
+    } else {
+      fileDrop.classList.remove('has-file');
+      fileDropText.textContent = 'Tap to choose a passport-style photo';
+    }
+    updateProgress();
+  });
+
+  function clearInvalid(q){
+    if(q) q.classList.remove('invalid');
+  }
+
+  const form = document.getElementById('feedbackForm');
+
+  const TOTAL_REQUIRED = 19;
+
+  function isAnswered(qEl){
+    const num = qEl.getAttribute('data-q');
+    if(num === '1') return form.fullname.value.trim().length > 0;
+    if(num === '2') return form.email.value.trim().length > 0;
+    if(num === '3') return form.mobile.value.trim().length > 0;
+    if(num === '4') return !!form.querySelector('input[name="course"]:checked');
+    if(num === '5') return !!form.querySelector('input[name="year"]:checked');
+    if(num === '6') return !!form.querySelector('input[name="semester"]:checked');
+    if(num === '7') return !!form.querySelector('input[name="subject"]:checked');
+    if(num === '18') {
+      const anyChecked = !!form.querySelector('input[name="suggestions"]:checked');
+      const otherFilled = document.getElementById('otherCheck').checked && document.getElementById('otherText').value.trim().length > 0;
+      return anyChecked || otherFilled;
+    }
+    if(num === '19') return fileInput.files && fileInput.files.length > 0;
+    // likert questions q1..q10 map to nums 8-17
+    const likertItem = LIKERT_QUESTIONS.find(l => String(l.num) === num);
+    if(likertItem) return !!form.querySelector(`input[name="${likertItem.id}"]:checked`);
+    return false;
+  }
+
+  function updateProgress(){
+    const qs = document.querySelectorAll('.q[data-q]');
+    let answered = 0;
+    qs.forEach(q=>{ if(isAnswered(q)) answered++; });
+    const pct = Math.round((answered / TOTAL_REQUIRED) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = answered + ' of ' + TOTAL_REQUIRED + ' answered';
+  }
+
+  ['fullname','email','mobile'].forEach(n=>{
+    form[n].addEventListener('input', ()=>{ clearInvalid(form[n].closest('.q')); updateProgress(); });
+  });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    let firstInvalid = null;
+    document.querySelectorAll('.q[data-q]').forEach(q=>{
+      if(!isAnswered(q)){
+        q.classList.add('invalid');
+        if(!firstInvalid) firstInvalid = q;
+      } else {
+        q.classList.remove('invalid');
+      }
+    });
+    if(firstInvalid){
+      firstInvalid.scrollIntoView({behavior:'smooth', block:'center'});
+      return;
+    }
+    showConfirmation();
+  });
+
+  document.getElementById('clearForm').addEventListener('click', function(){
+    if(confirm('Clear all answers in this form?')){
+      form.reset();
+      document.querySelectorAll('.opt.checked, .likert-opt.checked').forEach(o=>o.classList.remove('checked'));
+      fileDrop.classList.remove('has-file');
+      fileDropText.textContent = 'Tap to choose a passport-style photo';
+      document.querySelectorAll('.q').forEach(q=>q.classList.remove('invalid'));
+      updateProgress();
+    }
+  });
+
+  function showConfirmation(){
+    const summary = document.getElementById('summaryList');
+    summary.innerHTML = '';
+
+    function addItem(qLabel, answer){
+      const item = el('div','summary-item');
+      item.appendChild(el('div','summary-q', qLabel));
+      item.appendChild(el('div','summary-a', answer));
+      summary.appendChild(item);
+    }
+
+    addItem('Full name', form.fullname.value.trim());
+    addItem('Email', form.email.value.trim());
+    addItem('Student Mobile No', form.mobile.value.trim());
+    addItem('Course', form.querySelector('input[name="course"]:checked').value);
+    addItem('Year', form.querySelector('input[name="year"]:checked').value);
+    addItem('Semester', form.querySelector('input[name="semester"]:checked').value);
+    addItem('Feedback subject', form.querySelector('input[name="subject"]:checked').value);
+
+    LIKERT_QUESTIONS.forEach(item=>{
+      const checked = form.querySelector(`input[name="${item.id}"]:checked`);
+      addItem(item.en, checked.value.split('.')[1]);
+    });
+
+    const suggestions = Array.from(form.querySelectorAll('input[name="suggestions"]:checked')).map(i=>i.value);
+    const otherText = document.getElementById('otherText').value.trim();
+    if(otherText) suggestions.push('Other: ' + otherText);
+    addItem('Suggestions / Comments', suggestions.length ? suggestions.join('; ') : '\u2014');
+
+    addItem('Uploaded image', fileInput.files[0] ? fileInput.files[0].name : '\u2014');
+
+    document.getElementById('feedbackForm').style.display = 'none';
+    document.querySelector('.progress-rail').style.display = 'none';
+    document.getElementById('confirm').style.display = 'block';
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  document.getElementById('restartBtn').addEventListener('click', function(){
+    form.reset();
+    document.querySelectorAll('.opt.checked, .likert-opt.checked').forEach(o=>o.classList.remove('checked'));
+    fileDrop.classList.remove('has-file');
+    fileDropText.textContent = 'Tap to choose a passport-style photo';
+    document.querySelectorAll('.q').forEach(q=>q.classList.remove('invalid'));
+    document.getElementById('confirm').style.display = 'none';
+    document.getElementById('feedbackForm').style.display = 'block';
+    document.querySelector('.progress-rail').style.display = 'block';
+    updateProgress();
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  updateProgress();
+})();
+</script>
+</body>
+</html>
