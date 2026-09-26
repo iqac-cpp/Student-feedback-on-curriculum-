@@ -389,6 +389,7 @@
       <div class="success-icon">✓</div>
       <h2>Curriculum Feedback Submitted</h2>
       <p>Your curriculum feedback has been submitted successfully. Thank you for your valuable suggestions.</p>
+      <p style="margin-top:8px;font-size:11px;">Your response has been sent to the college feedback database.</p>
       <button id="successCloseBtn" class="success-close-btn" type="button">CLOSE</button>
     </div>
   </div>
@@ -650,8 +651,8 @@
       }
     }
     totalScore.value = total;
-    totalScoreDisplay.textContent = `${total} / 45`;
-    progressText.textContent = `${answered} / 9`;
+    totalScoreDisplay.textContent = `${total} / 50`;
+    progressText.textContent = `${answered} / 10`;
     progressBar.style.width = `${(answered / 10) * 100}%`;
   }
   function focusFirstMissingQuestion() {
@@ -746,12 +747,24 @@
     submitBtn.textContent = "SUBMITTING...";
 
     try {
+      // Google Apps Script Web Apps commonly require no-cors when called
+      // from a GitHub Pages origin. The request is still delivered to
+      // doPost(); the response body is intentionally not read here.
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
+
       await fetch(GOOGLE_SCRIPT_URL, {
-        method:"POST",
-        mode:"no-cors",
-        headers:{"Content-Type":"application/x-www-form-urlencoded;charset=UTF-8"},
-        body:new URLSearchParams(data).toString()
+        method: "POST",
+        mode: "no-cors",
+        redirect: "follow",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+        },
+        body: new URLSearchParams(data).toString(),
+        signal: controller.signal
       });
+
+      clearTimeout(timeoutId);
 
       form.reset();
       populateZones();
