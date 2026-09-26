@@ -694,6 +694,29 @@
   courseSelect.addEventListener("change", updateClassAndProgrammeName);
   form.addEventListener("change", updateSummary);
 
+  function lookupReceipt(responseId) {
+    return new Promise((resolve, reject) => {
+      const callback = "curriculumReceipt_" + Math.random().toString(36).slice(2);
+      const script = document.createElement("script");
+      const timeout = setTimeout(() => finish(new Error("Receipt check timed out.")), 12000);
+      function finish(error, result) {
+        clearTimeout(timeout);
+        delete window[callback];
+        script.remove();
+        if (error) reject(error); else resolve(result);
+      }
+      window[callback] = result => finish(null, result);
+      script.onerror = () => finish(new Error("Receipt check failed."));
+      const url = new URL(GOOGLE_SCRIPT_URL);
+      url.searchParams.set("formType", "curriculum");
+      url.searchParams.set("action", "receipt");
+      url.searchParams.set("responseId", responseId);
+      url.searchParams.set("callback", callback);
+      script.src = url.toString();
+      document.head.appendChild(script);
+    });
+  }
+
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     statusEl.className = "status";
@@ -747,25 +770,32 @@
     submitBtn.textContent = "SUBMITTING...";
 
     try {
-      // Google Apps Script Web Apps commonly require no-cors when called
-      // from a GitHub Pages origin. The request is still delivered to
-      // doPost(); the response body is intentionally not read here.
+      // The POST is opaque across origins. Confirm the saved row through
+      // a read-only JSONP receipt before showing success or clearing answers.
+      const responseId = "CFB-" + crypto.randomUUID();
+      data.responseId = responseId;
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 30000);
+      try {
+        await fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST", mode: "no-cors", redirect: "follow",
+          headers: {"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"},
+          body: new URLSearchParams(data).toString(), signal: controller.signal
+        });
+      } finally { clearTimeout(timeoutId); }
 
-      await fetch(GOOGLE_SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        redirect: "follow",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-        },
-        body: new URLSearchParams(data).toString(),
-        signal: controller.signal
-      });
-
-      clearTimeout(timeoutId);
-
+      let receipt;
+      for (let attempt = 0; attempt < 12; attempt++) {
+        receipt = await lookupReceipt(responseId);
+        if (receipt.found && receipt.pdfStatus !== "Generating") break;
+        await new Promise(resolve => setTimeout(resolve, 2500));
+      }
+      if (!receipt || !receipt.found) {
+        throw new Error("We could not confirm the submission. Please check the response sheet before submitting again. Reference: " + responseId);
+      }
+      if (receipt.pdfStatus !== "Generated") {
+        throw new Error("Feedback was saved, but the PDF needs attention (" + receipt.pdfStatus + "). Reference: " + responseId);
+      }
       form.reset();
       populateZones();
       updateCourseDropdown();
@@ -776,7 +806,7 @@
     } catch (error) {
       console.error(error);
       statusEl.className = "status error";
-      statusEl.textContent = "Submission failed. Please check the connection and try again.";
+      statusEl.textContent = error.message || "Submission could not be confirmed. Check the response sheet before trying again.";
     } finally {
       submitBtn.disabled = false;
       submitBtn.textContent = "SUBMIT CURRICULUM FEEDBACK";
